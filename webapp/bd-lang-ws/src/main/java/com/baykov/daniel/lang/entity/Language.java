@@ -1,9 +1,9 @@
 package com.baykov.daniel.lang.entity;
 
-import com.baykov.daniel.entity.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -20,13 +20,14 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode
 @ToString
 @Builder
 @Entity
 @Table(name = "languages")
-public class Language extends BaseEntity {
+public class Language{
 
+    @Id
     @Column(nullable = false, unique = true, length = 10)
     private String code;
 
