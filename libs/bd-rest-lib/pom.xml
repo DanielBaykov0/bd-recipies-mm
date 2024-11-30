@@ -6,7 +6,6 @@
         <groupId>com.baykov.daniel</groupId>
         <artifactId>bd-parent</artifactId>
         <version>0.0.1</version>
-        <relativePath>../../../recipies/pom.xml</relativePath>
     </parent>
 
     <artifactId>bd-rest-lib</artifactId>

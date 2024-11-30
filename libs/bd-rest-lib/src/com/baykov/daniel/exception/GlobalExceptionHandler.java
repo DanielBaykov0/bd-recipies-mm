@@ -1,8 +1,9 @@
-package com.baykov.daniel.recipes.exception;
-
+package com.baykov.daniel.exception;
 
 import com.baykov.daniel.payload.response.ResponseMessage;
 import jakarta.annotation.Nullable;
+import jakarta.persistence.EntityNotFoundException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -23,22 +24,23 @@ import org.springframework.web.util.WebUtils;
 
 import java.sql.SQLException;
 
+@Slf4j
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    //    @ExceptionHandler(ResourceNotFoundException.class)
-//    public ResponseEntity<ErrorDetails> handleResourceNotFoundException(ResourceNotFoundException exception) {
-//        ErrorDetails errorDetails = new ErrorDetails(exception.getMessage());
-//        return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
-//    }
-//
-//    @ExceptionHandler(LibraryHTTPException.class)
-//    public ResponseEntity<ErrorDetails> handleLibraryHTTPException(LibraryHTTPException exception) {
-//        ErrorDetails errorDetails = new ErrorDetails(exception.getMessage());
-//        return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
-//    }
+    @ExceptionHandler(EntityNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity<Object> handleResourceNotFoundException(EntityNotFoundException ex, WebRequest request) {
+       return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+    }
+
+    @ExceptionHandler(ResponseMessageException.class)
+    public ResponseEntity<Object> handleResponseMessageException(ResponseMessageException ex, WebRequest request) {
+        return handleExceptionInternal(ex, ex.getResponseMessage(), new HttpHeaders(), HttpStatus.valueOf(ex.getResponseMessage().getHttpStatusCode()), request);
+    }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<Object> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex, WebRequest request) {
         Throwable rootCause = getRootCause(ex);
         if (rootCause instanceof IllegalArgumentException) {
@@ -47,6 +49,16 @@ public class GlobalExceptionHandler {
         }
 
         ResponseMessage errorBody = new ResponseMessage(1, "BAD_REQUEST", "Malformed JSON request");
+        return handleExceptionInternal(ex, errorBody, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    }
+
+    @ExceptionHandler({MethodArgumentNotValidException.class, BindException.class})
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<Object> handleValidationExceptions(Exception ex, WebRequest request) {
+        BindingResult bindingResult = ex instanceof MethodArgumentNotValidException methodArgumentNotValidException
+                ? methodArgumentNotValidException.getBindingResult()
+                : ((BindException) ex).getBindingResult();
+        ResponseMessage errorBody = createResponseMessageFromBindingResult(bindingResult);
         return handleExceptionInternal(ex, errorBody, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }
 
@@ -61,16 +73,6 @@ public class GlobalExceptionHandler {
 //        ErrorDetails errorDetails = new ErrorDetails(INCORRECT_CREDENTIALS);
 //        return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
 //    }
-
-    @ExceptionHandler({MethodArgumentNotValidException.class, BindException.class})
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<Object> handleValidationExceptions(Exception ex, WebRequest request) {
-        BindingResult bindingResult = ex instanceof MethodArgumentNotValidException methodArgumentNotValidException
-                ? methodArgumentNotValidException.getBindingResult()
-                : ((BindException) ex).getBindingResult();
-        ResponseMessage errorBody = createResponseMessageFromBindingResult(bindingResult);
-        return handleExceptionInternal(ex, errorBody, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
-    }
 
 //    @ExceptionHandler(AccessDeniedException.class)
 //    public ResponseEntity<ErrorDetails> handleAccessDeniedException(AccessDeniedException exception) {
@@ -98,26 +100,24 @@ public class GlobalExceptionHandler {
         return errorBody;
     }
 
+    private Throwable getRootCause(Throwable throwable) {
+        Throwable cause = throwable.getCause();
+        return (cause != null) ? getRootCause(cause) : throwable;
+    }
+
     protected ResponseEntity<Object> handleExceptionInternal(
             Exception ex,
             @Nullable Object body,
             HttpHeaders headers,
             HttpStatus status,
             WebRequest request) {
-        boolean logError = true;
-//        if (ex instanceof StatusMessageException) {
-//            StatusMessageException statusMessageException = (StatusMessageException) ex;
-//            if (statusMessageException.getStatusMessage().getStatus() == 0) {
-//                logError = false;
-//            }
-//        }
-//
-//        if (logError) {
-//            log.error(ex.getMessage(), ex);
-//        }
+        boolean logError = !(ex instanceof ResponseMessageException responseMessageException) || responseMessageException.getResponseMessage().getStatus() != 0;
 
-        if (ex instanceof UncategorizedSQLException && ex.getCause() instanceof SQLException) {
-            SQLException cause = (SQLException) ex.getCause();
+        if (logError) {
+            log.error(ex.getMessage(), ex);
+        }
+
+        if (ex instanceof UncategorizedSQLException && ex.getCause() instanceof SQLException cause) {
             int errorCode = cause.getErrorCode();
 
             if (errorCode == 100) {
@@ -148,10 +148,5 @@ public class GlobalExceptionHandler {
                 .headers(headers)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(body);
-    }
-
-    private Throwable getRootCause(Throwable throwable) {
-        Throwable cause = throwable.getCause();
-        return (cause != null) ? getRootCause(cause) : throwable;
     }
 }

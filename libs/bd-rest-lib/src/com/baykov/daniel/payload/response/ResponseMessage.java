@@ -76,14 +76,6 @@ public class ResponseMessage {
         this.httpStatusCode = httpStatusCode;
     }
 
-    public void addFieldError(FieldError fieldError) {
-        this.fieldErrors.add(fieldError);
-    }
-
-    public void addGlobalError(ObjectError globalError) {
-        this.globalErrors.add(globalError);
-    }
-
     public static ResponseMessage success() {
         return ResponseMessage.builder()
                 .status(STATUS_SUCCESS)
@@ -99,11 +91,41 @@ public class ResponseMessage {
                 .httpStatusCode(HttpStatus.BAD_REQUEST.value());
     }
 
+    public static ResponseMessageBuilder error(String messageCode) {
+        return ResponseMessage.builder()
+                .status(STATUS_ERROR)
+                .messageCode(messageCode)
+                .httpStatusCode(HttpStatus.BAD_REQUEST.value());
+    }
+
     public static ResponseMessageBuilder error(String messageCode, String message) {
         return ResponseMessage.builder()
                 .status(STATUS_ERROR)
                 .messageCode(messageCode)
                 .message(message)
                 .httpStatusCode(HttpStatus.BAD_REQUEST.value());
+    }
+
+    public static ResponseMessageBuilder error(String messageCode, HttpStatus httpStatus) {
+        return ResponseMessage.builder()
+                .status(STATUS_ERROR)
+                .messageCode(messageCode)
+                .httpStatusCode(httpStatus.value());
+    }
+
+    public static ResponseMessageBuilder error(String messageCode, String message, HttpStatus httpStatus) {
+        return ResponseMessage.builder()
+                .status(STATUS_ERROR)
+                .messageCode(messageCode)
+                .message(message)
+                .httpStatusCode(httpStatus.value());
+    }
+
+    public void addFieldError(FieldError fieldError) {
+        this.fieldErrors.add(fieldError);
+    }
+
+    public void addGlobalError(ObjectError globalError) {
+        this.globalErrors.add(globalError);
     }
 }
