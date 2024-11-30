@@ -25,6 +25,11 @@
         <mapstruct.version>1.5.5.Final</mapstruct.version>
     </properties>
 
+    <modules>
+        <module>webapp/bd-lang-ws</module>
+        <module>webapp/bd-recipes-ws</module>
+    </modules>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -94,7 +99,12 @@
             <groupId>com.baykov.daniel</groupId>
             <artifactId>bd-common-lib</artifactId>
             <version>0.0.1</version>
-            <scope>compile</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 
@@ -105,6 +115,9 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <version>${maven-war-plugin.version}</version>
+                <configuration>
+                    <outputDirectory>${project.build.directory}</outputDirectory>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

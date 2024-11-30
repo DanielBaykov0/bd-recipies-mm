@@ -6,6 +6,7 @@
         <groupId>com.baykov.daniel</groupId>
         <artifactId>bd-parent</artifactId>
         <version>0.0.1</version>
+        <relativePath>../../../recipies/pom.xml</relativePath>
     </parent>
 
     <artifactId>bd-lang-ws</artifactId>
@@ -33,11 +34,6 @@
             <artifactId>postgresql</artifactId>
             <version>${postgresql.version}</version>
             <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.baykov.daniel</groupId>
-            <artifactId>bd-common-lib</artifactId>
-            <version>0.0.1</version>
         </dependency>
     </dependencies>
 
