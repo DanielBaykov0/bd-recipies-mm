@@ -18,9 +18,10 @@
           <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct/1.5.5.Final/mapstruct-1.5.5.Final.jar" />
         </processorPath>
+        <module name="bd-rest-lib" />
+        <module name="bd-lang-ws" />
         <module name="bd-recipes-ws" />
         <module name="bd-common-lib" />
-        <module name="bd-lang-ws" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -31,7 +32,9 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="bd-common-lib" options="-Amapstruct.defaultComponentModel=spring" />
       <module name="bd-lang-ws" options="-Amapstruct.defaultComponentModel=spring" />
+      <module name="bd-parent" options="-Amapstruct.defaultComponentModel=spring" />
       <module name="bd-recipes-ws" options="-Amapstruct.defaultComponentModel=spring" />
+      <module name="bd-rest-lib" options="-Amapstruct.defaultComponentModel=spring" />
       <module name="recipies" options="-Amapstruct.defaultComponentModel=spring" />
     </option>
   </component>

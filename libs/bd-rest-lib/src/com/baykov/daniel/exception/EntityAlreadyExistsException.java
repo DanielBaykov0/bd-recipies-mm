@@ -1,4 +1,4 @@
-package com.baykov.daniel.recipes.exception;
+package com.baykov.daniel.exception;
 
 public class EntityAlreadyExistsException extends RuntimeException {
 

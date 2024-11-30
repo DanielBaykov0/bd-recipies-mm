@@ -9,11 +9,11 @@
         <relativePath>../../../recipies/pom.xml</relativePath>
     </parent>
 
-    <artifactId>bd-common-lib</artifactId>
+    <artifactId>bd-rest-lib</artifactId>
     <version>0.0.1</version>
     <packaging>jar</packaging>
-    <name>bd-common-lib</name>
-    <description>Spring Boot Recipes Common Lib</description>
+    <name>bd-rest-lib</name>
+    <description>Spring Boot Recipes Rest Lib</description>
 
     <properties>
     </properties>
