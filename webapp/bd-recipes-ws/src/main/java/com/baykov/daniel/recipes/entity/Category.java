@@ -1,5 +1,6 @@
 package com.baykov.daniel.recipes.entity;
 
+import com.baykov.daniel.entity.BaseEntity;
 import com.baykov.daniel.recipes.entity.constant.CategoryEnum;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

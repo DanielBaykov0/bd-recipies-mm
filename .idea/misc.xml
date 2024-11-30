@@ -22,6 +22,7 @@
         <option value="$PROJECT_DIR$/webapp/bd-lang-ws/pom.xml" />
         <option value="$PROJECT_DIR$/webapp/recipes/pom.xml" />
         <option value="$PROJECT_DIR$/webapp/bd-recipes-ws/pom.xml" />
+        <option value="$PROJECT_DIR$/libs/bd-common-lib/pom.xml" />
       </list>
     </option>
   </component>

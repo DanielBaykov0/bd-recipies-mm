@@ -8,32 +8,21 @@
         <version>0.0.1</version>
     </parent>
 
-    <artifactId>bd-recipes-ws</artifactId>
+    <artifactId>bd-common-lib</artifactId>
     <version>0.0.1</version>
-    <packaging>war</packaging>
-    <name>bd-recipes-ws</name>
-    <description>Spring Boot Recipes Web Service</description>
+    <packaging>jar</packaging>
+    <name>bd-common-lib</name>
+    <description>Spring Boot Recipes Common Lib</description>
 
     <properties>
-        <postgresql.version>42.7.3</postgresql.version>
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>${postgresql.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.baykov.daniel</groupId>
-            <artifactId>bd-common-lib</artifactId>
-            <version>0.0.1</version>
-        </dependency>
     </dependencies>
 
+
     <build>
-        <finalName>${project.artifactId}</finalName>
+        <sourceDirectory>src</sourceDirectory>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

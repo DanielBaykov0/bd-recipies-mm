@@ -1,6 +1,7 @@
 
 package com.baykov.daniel.recipes.entity;
 
+import com.baykov.daniel.entity.BaseEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;

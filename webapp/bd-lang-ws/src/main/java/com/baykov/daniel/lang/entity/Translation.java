@@ -1,5 +1,7 @@
-package com.baykov.daniel.recipes.entity;
+package com.baykov.daniel.lang.entity;
 
+import com.baykov.daniel.entity.BaseEntity;
+import com.baykov.daniel.recipes.entity.Language;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
