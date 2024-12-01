@@ -24,14 +24,14 @@ import lombok.ToString;
 @Builder
 @Entity
 @Table(name = "translations")
-public class Translation {
+public class TranslationEntity {
 
     @EmbeddedId
-    private TranslationId id;
+    private TranslationEntityId id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "code", referencedColumnName = "code", insertable = false, updatable = false)
-    private Language language;
+    private LanguageEntity language;
 
     @Column(nullable = false, length = 255)
     private String value;

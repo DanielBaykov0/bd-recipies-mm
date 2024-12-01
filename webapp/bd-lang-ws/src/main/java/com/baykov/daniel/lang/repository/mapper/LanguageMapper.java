@@ -1,6 +1,6 @@
 package com.baykov.daniel.lang.repository.mapper;
 
-import com.baykov.daniel.lang.entity.Language;
+import com.baykov.daniel.lang.entity.LanguageEntity;
 import com.baykov.daniel.lang.payload.dto.response.LanguageResponseDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -14,7 +14,7 @@ public interface LanguageMapper {
     @Mapping(target = "name", source = "name")
     @Mapping(target = "isActive", source = "isActive")
     @Mapping(target = "translations", source = "translations")
-    LanguageResponseDto entityToDto(Language language);
+    LanguageResponseDto entityToDto(LanguageEntity language);
 
-    List<LanguageResponseDto> languagesToLanguageResponseDtos(List<Language> languages);
+    List<LanguageResponseDto> languagesToLanguageResponseDtos(List<LanguageEntity> languages);
 }

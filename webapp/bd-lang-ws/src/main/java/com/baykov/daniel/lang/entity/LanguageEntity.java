@@ -25,7 +25,7 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "languages")
-public class Language{
+public class LanguageEntity {
 
     @Id
     @Column(nullable = false, unique = true, length = 10)
@@ -38,5 +38,5 @@ public class Language{
     private String isActive;
 
     @OneToMany(mappedBy = "language", fetch = FetchType.LAZY)
-    private List<Translation> translations;
+    private List<TranslationEntity> translations;
 }

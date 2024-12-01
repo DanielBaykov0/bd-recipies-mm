@@ -1,6 +1,6 @@
 package com.baykov.daniel.lang.repository.mapper;
 
-import com.baykov.daniel.lang.entity.Translation;
+import com.baykov.daniel.lang.entity.TranslationEntity;
 import com.baykov.daniel.lang.payload.dto.response.TranslationResponseDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -12,7 +12,7 @@ public interface TranslationMapper {
 
     @Mapping(target = "key", source = "id.key")
     @Mapping(target = "value", source = "value")
-    TranslationResponseDto entityToDto(Translation translation);
+    TranslationResponseDto entityToDto(TranslationEntity translation);
 
-    List<TranslationResponseDto> entityToDto(List<Translation> translations);
+    List<TranslationResponseDto> entityToDto(List<TranslationEntity> translations);
 }

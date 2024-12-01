@@ -1,8 +1,8 @@
 package com.baykov.daniel.lang.service;
 
 
-import com.baykov.daniel.lang.entity.Language;
-import com.baykov.daniel.lang.entity.Translation;
+import com.baykov.daniel.lang.entity.LanguageEntity;
+import com.baykov.daniel.lang.entity.TranslationEntity;
 import com.baykov.daniel.lang.payload.dto.response.LanguageResponseDto;
 import com.baykov.daniel.lang.payload.dto.response.TranslationResponseDto;
 import com.baykov.daniel.lang.repository.LanguageRepository;
@@ -25,13 +25,13 @@ public class LanguageTranslationService {
     private final TranslationMapper translationMapper;
 
     public List<LanguageResponseDto> getAllLanguageTranslations() {
-        List<Language> languages = languageRepository.findAll();
-        return languageMapper.languagesToLanguageResponseDtos(languages);
+        List<LanguageEntity> languageEntities = languageRepository.findAll();
+        return languageMapper.languagesToLanguageResponseDtos(languageEntities);
     }
 
     public List<TranslationResponseDto> getTranslationsByLanguage(String languageCode) {
-        List<Translation> translations = translationRepository.findByIdCode(languageCode)
+        List<TranslationEntity> translationEntities = translationRepository.findByIdCode(languageCode)
                 .orElseThrow(() -> new EntityNotFoundException("No translations found for language code: " + languageCode));
-        return translationMapper.entityToDto(translations);
+        return translationMapper.entityToDto(translationEntities);
     }
 }

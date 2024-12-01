@@ -18,7 +18,7 @@ import java.io.Serializable;
 @EqualsAndHashCode
 @ToString
 @Embeddable
-public class TranslationId implements Serializable {
+public class TranslationEntityId implements Serializable {
 
     @Column(nullable = false, length = 255)
     private String key;
